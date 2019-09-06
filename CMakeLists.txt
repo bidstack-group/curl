@@ -498,10 +498,10 @@ if(NOT CURL_DISABLE_LDAPS)
 endif()
 
 # Check for idn
-check_library_exists_concat("idn2" idn2_lookup_ul HAVE_LIBIDN2)
+check_library_exists("idn2" idn2_lookup_ul "" HAVE_LIBIDN2)
 
 # Check for symbol dlopen (same as HAVE_LIBDL)
-check_library_exists("${CURL_LIBS}" dlopen "" HAVE_DLOPEN)
+check_library_exists("dl" dlopen "" HAVE_DLOPEN)
 
 option(CURL_ZLIB "Set to ON to enable building curl with zlib support." ON)
 set(HAVE_LIBZ OFF)
