@@ -616,7 +616,7 @@ endif()
 option(USE_LIBIDN2 "Use libidn2 for IDN support" ON)
 set(HAVE_LIBIDN2 OFF)
 if(USE_LIBIDN2)
-  check_library_exists_concat("idn2" idn2_lookup_ul HAVE_LIBIDN2)
+  check_library_exists("idn2" idn2_lookup_ul "" HAVE_LIBIDN2)
 endif()
 
 if(WIN32)
@@ -628,7 +628,7 @@ if(WIN32)
 endif()
 
 # Check for symbol dlopen (same as HAVE_LIBDL)
-check_library_exists("${CURL_LIBS}" dlopen "" HAVE_DLOPEN)
+check_library_exists("dl" dlopen "" HAVE_DLOPEN)
 
 set(HAVE_LIBZ OFF)
 set(HAVE_ZLIB_H OFF)
