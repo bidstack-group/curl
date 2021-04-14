@@ -22,6 +22,7 @@
  *
  ***************************************************************************/
 #include "curl_setup.h"
+#include "curl_memory.h"
 
 #if defined(WIN32)
 
@@ -66,8 +67,8 @@ typedef union {
 
 #else
 
-#define curlx_convert_UTF8_to_tchar(ptr) (strdup)(ptr)
-#define curlx_convert_tchar_to_UTF8(ptr) (strdup)(ptr)
+#define curlx_convert_UTF8_to_tchar(ptr) strdup(ptr)
+#define curlx_convert_tchar_to_UTF8(ptr) strdup(ptr)
 
 typedef union {
   char                *tchar_ptr;
@@ -81,7 +82,7 @@ typedef union {
 #define curlx_unicodefree(ptr)                          \
   do {                                                  \
     if(ptr) {                                           \
-      (free)(ptr);                                      \
+      free(ptr);                                      \
       (ptr) = NULL;                                     \
     }                                                   \
   } while(0)
