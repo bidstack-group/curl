@@ -974,7 +974,7 @@ foreach(CURL_TEST
     HAVE_VARIADIC_MACROS_C99
     HAVE_VARIADIC_MACROS_GCC
     )
-  curl_internal_test(${CURL_TEST})
+  #curl_internal_test(${CURL_TEST})
 endforeach()
 
 if(HAVE_FILE_OFFSET_BITS)
