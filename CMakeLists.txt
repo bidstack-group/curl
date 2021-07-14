@@ -995,7 +995,7 @@ foreach(CURL_TEST
     HAVE_GLIBC_STRERROR_R
     HAVE_POSIX_STRERROR_R
     )
-  curl_internal_test(${CURL_TEST})
+  #curl_internal_test(${CURL_TEST})
 endforeach()
 
 # Check for reentrant
@@ -1035,10 +1035,10 @@ if(HAVE_INET_NTOA_R_DECL_REENTRANT)
 endif()
 
 # Check clock_gettime(CLOCK_MONOTONIC, x) support
-curl_internal_test(HAVE_CLOCK_GETTIME_MONOTONIC)
+#curl_internal_test(HAVE_CLOCK_GETTIME_MONOTONIC)
 
 # Check compiler support of __builtin_available()
-curl_internal_test(HAVE_BUILTIN_AVAILABLE)
+#curl_internal_test(HAVE_BUILTIN_AVAILABLE)
 
 # Some other minor tests
 
