@@ -185,26 +185,26 @@ endif()
 set(curl_cv_func_send_args "${curl_cv_func_send_args}" CACHE INTERNAL "Arguments for send")
 set(HAVE_SEND 1)
 
-check_c_source_compiles("${_source_epilogue}
-  int main(void) {
-    int flag = MSG_NOSIGNAL;
-    (void)flag;
-    return 0;
-  }" HAVE_MSG_NOSIGNAL)
+# check_c_source_compiles("${_source_epilogue}
+#   int main(void) {
+#     int flag = MSG_NOSIGNAL;
+#     (void)flag;
+#     return 0;
+#   }" HAVE_MSG_NOSIGNAL)
 
 if(NOT HAVE_WINDOWS_H)
   add_header_include(HAVE_SYS_TIME_H "sys/time.h")
   add_header_include(TIME_WITH_SYS_TIME "time.h")
   add_header_include(HAVE_TIME_H "time.h")
 endif()
-check_c_source_compiles("${_source_epilogue}
-int main(void) {
-  struct timeval ts;
-  ts.tv_sec  = 0;
-  ts.tv_usec = 0;
-  (void)ts;
-  return 0;
-}" HAVE_STRUCT_TIMEVAL)
+# check_c_source_compiles("${_source_epilogue}
+# int main(void) {
+#   struct timeval ts;
+#   ts.tv_sec  = 0;
+#   ts.tv_usec = 0;
+#   (void)ts;
+#   return 0;
+# }" HAVE_STRUCT_TIMEVAL)
 
 set(HAVE_SIG_ATOMIC_T 1)
 set(CMAKE_REQUIRED_FLAGS)
@@ -212,21 +212,21 @@ if(HAVE_SIGNAL_H)
   set(CMAKE_REQUIRED_FLAGS "-DHAVE_SIGNAL_H")
   set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
 endif()
-check_type_size("sig_atomic_t" SIZEOF_SIG_ATOMIC_T)
-if(HAVE_SIZEOF_SIG_ATOMIC_T)
-  check_c_source_compiles("
-    #ifdef HAVE_SIGNAL_H
-    #  include <signal.h>
-    #endif
-    int main(void) {
-      static volatile sig_atomic_t dummy = 0;
-      (void)dummy;
-      return 0;
-    }" HAVE_SIG_ATOMIC_T_NOT_VOLATILE)
-  if(NOT HAVE_SIG_ATOMIC_T_NOT_VOLATILE)
-    set(HAVE_SIG_ATOMIC_T_VOLATILE 1)
-  endif()
-endif()
+#check_type_size("sig_atomic_t" SIZEOF_SIG_ATOMIC_T)
+# if(HAVE_SIZEOF_SIG_ATOMIC_T)
+#   check_c_source_compiles("
+#     #ifdef HAVE_SIGNAL_H
+#     #  include <signal.h>
+#     #endif
+#     int main(void) {
+#       static volatile sig_atomic_t dummy = 0;
+#       (void)dummy;
+#       return 0;
+#     }" HAVE_SIG_ATOMIC_T_NOT_VOLATILE)
+#   if(NOT HAVE_SIG_ATOMIC_T_NOT_VOLATILE)
+#     set(HAVE_SIG_ATOMIC_T_VOLATILE 1)
+#   endif()
+# endif()
 
 if(HAVE_WINDOWS_H)
   set(CMAKE_EXTRA_INCLUDE_FILES winsock2.h)
@@ -237,7 +237,7 @@ else()
   endif()
 endif()
 
-check_type_size("struct sockaddr_storage" SIZEOF_STRUCT_SOCKADDR_STORAGE)
+#check_type_size("struct sockaddr_storage" SIZEOF_STRUCT_SOCKADDR_STORAGE)
 if(HAVE_SIZEOF_STRUCT_SOCKADDR_STORAGE)
   set(HAVE_STRUCT_SOCKADDR_STORAGE 1)
 endif()
@@ -253,39 +253,39 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   elseif(HAVE_POLL_H)
     set(CMAKE_REQUIRED_FLAGS "-DHAVE_POLL_H")
   endif()
-  check_c_source_runs("
-    #include <stdlib.h>
-    #include <sys/time.h>
+  # check_c_source_runs("
+  #   #include <stdlib.h>
+  #   #include <sys/time.h>
 
-    #ifdef HAVE_SYS_POLL_H
-    #  include <sys/poll.h>
-    #elif  HAVE_POLL_H
-    #  include <poll.h>
-    #endif
+  #   #ifdef HAVE_SYS_POLL_H
+  #   #  include <sys/poll.h>
+  #   #elif  HAVE_POLL_H
+  #   #  include <poll.h>
+  #   #endif
 
-    int main(void)
-    {
-        if(0 != poll(0, 0, 10)) {
-          return 1; /* fail */
-        }
-        else {
-          /* detect the 10.12 poll() breakage */
-          struct timeval before, after;
-          int rc;
-          size_t us;
+  #   int main(void)
+  #   {
+  #       if(0 != poll(0, 0, 10)) {
+  #         return 1; /* fail */
+  #       }
+  #       else {
+  #         /* detect the 10.12 poll() breakage */
+  #         struct timeval before, after;
+  #         int rc;
+  #         size_t us;
 
-          gettimeofday(&before, NULL);
-          rc = poll(NULL, 0, 500);
-          gettimeofday(&after, NULL);
+  #         gettimeofday(&before, NULL);
+  #         rc = poll(NULL, 0, 500);
+  #         gettimeofday(&after, NULL);
 
-          us = (after.tv_sec - before.tv_sec) * 1000000 +
-            (after.tv_usec - before.tv_usec);
+  #         us = (after.tv_sec - before.tv_sec) * 1000000 +
+  #           (after.tv_usec - before.tv_usec);
 
-          if(us < 400000) {
-            return 1;
-          }
-        }
-        return 0;
-    }" HAVE_POLL_FINE)
+  #         if(us < 400000) {
+  #           return 1;
+  #         }
+  #       }
+  #       return 0;
+  #   }" HAVE_POLL_FINE)
 endif()
 
