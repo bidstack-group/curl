@@ -951,7 +951,7 @@ check_include_file_concat("stdint.h"        HAVE_STDINT_H)
 check_include_file_concat("sockio.h"        HAVE_SOCKIO_H)
 check_include_file_concat("sys/utsname.h"   HAVE_SYS_UTSNAME_H)
 
-if (NOT DEFINED SKIP_CURL_CHECKS)
+if(NOT "${SKIP_CURL_CHECKS}")
   # check_type_size doesn't care if variable is defined or not: a check will be performed anyway
   check_type_size(size_t  SIZEOF_SIZE_T)
   check_type_size(ssize_t  SIZEOF_SSIZE_T)
@@ -1131,11 +1131,14 @@ if(HAVE_FILE_OFFSET_BITS)
 endif()
 check_type_size("off_t"  SIZEOF_OFF_T)
 
-# include this header to get the type
-set(CMAKE_REQUIRED_INCLUDES "${CURL_SOURCE_DIR}/include")
-set(CMAKE_EXTRA_INCLUDE_FILES "curl/system.h")
-check_type_size("curl_off_t"  SIZEOF_CURL_OFF_T)
-set(CMAKE_EXTRA_INCLUDE_FILES "")
+
+if(NOT "${SKIP_CURL_CHECKS}")
+  # include this header to get the type
+  set(CMAKE_REQUIRED_INCLUDES "${CURL_SOURCE_DIR}/include")
+  set(CMAKE_EXTRA_INCLUDE_FILES "curl/system.h")
+  check_type_size("curl_off_t"  SIZEOF_CURL_OFF_T)
+  set(CMAKE_EXTRA_INCLUDE_FILES "")
+endif()
 
 set(CMAKE_REQUIRED_FLAGS)
 

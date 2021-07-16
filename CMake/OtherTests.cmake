@@ -19,6 +19,12 @@
 # KIND, either express or implied.
 #
 ###########################################################################
+
+if ("${SKIP_CURL_CHECKS}")
+  MESSAGE("Skipping checks in OtherTests.cmake")
+  return()
+endif()
+
 include(CheckCSourceCompiles)
 # The begin of the sources (macros and includes)
 set(_source_epilogue "#undef inline")
